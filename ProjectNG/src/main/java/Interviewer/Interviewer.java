@@ -4,25 +4,26 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Interviewer implements Serializable {
-  static ArrayList<Interviewer> data;
+  public static ArrayList<Interviewer> data;
 
   int id;
-  String name;
+  public String name;
   String lastName;
   String email;
   Boolean isActive;
 
-  public Interviewer(
-          String name,
-          String lastName,
-          String email,
-          Boolean isActive
-  ) {
-    this.id = data.size() + 1;
-    this.name = name;
-    this.lastName = lastName;
-    this.email = email;
-    this.isActive = isActive;
+  public Interviewer(String name, String lastName,String email,Boolean isActive) {
+    if (lastName=="")
+    {
+      return;
+    }
+    else {
+      this.id = data.size() + 1;
+      this.name = name;
+      this.lastName = lastName;
+      this.email = email;
+      this.isActive = isActive;
+    }
   }
 
   public Interviewer add() {
