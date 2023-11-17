@@ -1,6 +1,12 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Suite de Ejemplo">
     <test name="Caso de Prueba de Ejemplo">
+        <groups>
+            <run>
+                <include name="grupo1" />
+                <include name="grupo3" />
+            </run>
+        </groups>
         <classes>
             <class name="test"/>
         </classes>

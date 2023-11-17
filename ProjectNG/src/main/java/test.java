@@ -23,176 +23,183 @@ public class test {
   private ByteArrayOutputStream testOut;
 
 
-  @BeforeTest
-    public void setUpOutput() {
-      testOut = new ByteArrayOutputStream();
-      System.setOut(new PrintStream(testOut));
-    }
+  @BeforeGroups (groups = {"grupo1"})
+  public void setUpOutput() {
+    testOut = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(testOut));
+  }
 
-    private void provideInput(String data) {
-      testIn = new ByteArrayInputStream(data.getBytes());
-      System.setIn(testIn);
-    }
+  private void provideInput(String data) {
+    testIn = new ByteArrayInputStream(data.getBytes());
+    System.setIn(testIn);
+  }
 
-    private String getOutput() {
+  private String getOutput() {
       return testOut.toString();
+  }
+
+
+  @AfterSuite
+  public void restoreSystemInputOutput() {
+    System.setIn(systemIn);
+    System.setOut(systemOut);
+  }
+
+
+  @Test(groups = "grupo1")
+  public class Grupo1 {
+
+
+    public void addNewInterviewer() { //Agrega un entrevistador y valida si contiene los datos
+      final String interviewerName = "Nombre";
+      final String interviewerLastName = "Apellido";
+      final String interviewerEmail = "mail@mail.com";
+      final String addNewInterviewerCommand = "1 \n " + interviewerName + " \n " + interviewerLastName + " \n " + interviewerEmail + " \n 1 \n 3 \n";
+      provideInput(addNewInterviewerCommand);
+
+      Menu.main(new String[0]);
+      final String output = getOutput();
+
+      assertTrue(output.contains(interviewerName));
+      assertTrue(output.contains(interviewerLastName));
+      assertTrue(output.contains(interviewerEmail));
     }
 
 
+    public void getInterviewer() { //Validar que el entrevistador se registró correctamente
+      final String interviewerName = "Jose";
+      final String interviewerLastName = "Sosa";
+      final String interviewerEmail = "jose@mail.com";
+      final String addNewInterviewerCommand = "1 \n " + interviewerName + " \n " + interviewerLastName + " \n " + interviewerEmail + " \n 1 \n";
+      final String getInterviewerCommand = "2 \n " + interviewerEmail + "\n ";
+      final String exitCommand = "3 \n";
+      provideInput(addNewInterviewerCommand + getInterviewerCommand + exitCommand);
 
 
-  @AfterTest
-    public void restoreSystemInputOutput() {
-      System.setIn(systemIn);
-      System.setOut(systemOut);
+      Menu.main(new String[0]);
+      final String output = getOutput();
+      //System.out.println(""+output);
+      assertTrue(output.contains(interviewerName));
+      assertTrue(output.contains(interviewerLastName));
+      assertTrue(output.contains(interviewerEmail));
+      assertTrue(output.contains("Jose"), "Fallo: No Existe el nombre");
+
     }
 
-
-  @Test
-  public void addNewInterviewer() { //Agrega un entrevistador y valida si contiene los datos
-   final String interviewerName = "Nombre";
-   final String interviewerLastName ="Apellido";
-   final String interviewerEmail = "mail@mail.com";
-   final String addNewInterviewerCommand= "1 \n "+ interviewerName + " \n " + interviewerLastName + " \n " + interviewerEmail + " \n 1 \n 3 \n";
-    provideInput(addNewInterviewerCommand);
-
-    Menu.main(new String[0]);
-    final String output = getOutput();
-
-    assertTrue(output.contains(interviewerName));
-    assertTrue(output.contains(interviewerLastName));
-    assertTrue(output.contains(interviewerEmail));
-  }
-
-  @Test
-  public void getInterviewer () { //Validar que el entrevistador se registró correctamente
-    final String interviewerName = "Jose";
-    final String interviewerLastName = "Sosa";
-    final String interviewerEmail = "jose@mail.com";
-    final String addNewInterviewerCommand = "1 \n "+ interviewerName + " \n " + interviewerLastName + " \n " + interviewerEmail + " \n 1 \n";
-    final String getInterviewerCommand = "2 \n " + interviewerEmail + "\n ";
-    final String exitCommand = "3 \n";
-    provideInput(addNewInterviewerCommand + getInterviewerCommand + exitCommand);
-
-
-    Menu.main(new String[0]);
-    final String output = getOutput();
-    //System.out.println(""+output);
-    assertTrue(output.contains(interviewerName));
-    assertTrue(output.contains(interviewerLastName));
-    assertTrue(output.contains(interviewerEmail));
-    assertTrue(output.contains("Jose"), "Fallo: No Existe el nombre");
-
-  }
-
-  @Test
-  public void testAdd(){ //Verifica que  el entrevistador agregado este presente en la lista de datos
+  public void testAdd() { //Verifica que  el entrevistador agregado este presente en la lista de datos
     Interviewer.data = new ArrayList<>();
-    Interviewer interviewer = new Interviewer("Juan","lopez", "juan@mail.com", true);
+    Interviewer interviewer = new Interviewer("Juan", "lopez", "juan@mail.com", true);
     Interviewer addedInterviewer = interviewer.add();
 
     assertTrue(Interviewer.data.contains(addedInterviewer), "Fallo:El entrevistador no se agrego correctamente");
   }
 
-  @Test
-  public void testSave(){ //Validar que los campos se hayan actualizado correctamente
+
+  public void testSave() { //Validar que los campos se hayan actualizado correctamente
     Interviewer.data = new ArrayList<>();
-    Interviewer interviewer = new Interviewer("Juan","lopez", "juan@mail.com", true);
+    Interviewer interviewer = new Interviewer("Juan", "lopez", "juan@mail.com", true);
 
     //Guardar los cambios del entrevistador
-    interviewer.save("","Diaz", "ana.diaz@mail.com", false);
+    interviewer.save("", "Diaz", "ana.diaz@mail.com", false);
 
 
-    assertEquals( interviewer.name,"Juan","Fallo: El nombre no se actualizo correctamente");
+    assertEquals(interviewer.name, "Juan", "Fallo: El nombre no se actualizo correctamente");
 
   }
-  @Test
-  public void testEmail(){ //Buscar correo existente
-    Interviewer.data = new ArrayList<>();
-    Interviewer interviewer1 = new Interviewer("Juan","lopez", "juan@mail.com", true);
-    interviewer1.save("Juan","lopez", "juan@mail.com", true);
 
-   Interviewer foundInterviewer = Interviewer.getByEmail("juan@mail.com");
+
+  public void testEmail() { //Buscar correo existente
+    Interviewer.data = new ArrayList<>();
+    Interviewer interviewer1 = new Interviewer("Juan", "lopez", "juan@mail.com", true);
+    interviewer1.save("Juan", "lopez", "juan@mail.com", true);
+
+    Interviewer foundInterviewer = Interviewer.getByEmail("juan@mail.com");
     assertEquals(interviewer1, foundInterviewer, "Fallo: Entrevistador Encontrado no es el esperado");
   }
 
-  @Test
-  public void testEmailNull(){ //Buscar correo existente
+
+  public void testEmailNull() { //Buscar correo existente
     Interviewer.data = new ArrayList<>();
-    Interviewer interviewer1 = new Interviewer("Juan","lopez", "juan@mail.com", false);
-    interviewer1.save("Juan","lopez", "juan@mail.com", true);
+    Interviewer interviewer1 = new Interviewer("Juan", "lopez", "juan@mail.com", false);
+    interviewer1.save("Juan", "lopez", "juan@mail.com", true);
 
     Interviewer foundInterviewer = Interviewer.getByEmail("nonexitente@mail.com");
-    assertNull(foundInterviewer,"Fallo: Correo no existente");
+    assertNull(foundInterviewer, "Fallo: Correo no existente");
   }
 
-  @Test
-  public void testOne() {
-    assertEquals(2, 1+1,"La suma de los numeros dados no es igual");
-  }
+}
 
-  @Test
-  public void testSuma(){
-    Calculator calculador = new Calculator();
-    int result  = calculador.add(3,5);
 
-    assertEquals(8,result,"EL resultado actual es diferente de 8");
-  }
+  @Test(groups = "grupo3")
+  public class Grupo3 {
+    public void testOne() {
+      assertEquals(2, 1 + 1, "La suma de los numeros dados no es igual");
+    }
 
-  @Test
-  public void testEquality(){
-    String  expected ="Hello";
-    String actual="Hello";
 
-    assertEquals(expected, actual,"Cadenas diferentes");
-  }
+    public void testSuma() {
+      Calculator calculador = new Calculator();
+      int result = calculador.add(3, 5);
 
-  @Test
-  public void testTrueOrFalse(){
-    assertTrue(5>2, "La expresion deberia ser verdadera");
-    assertFalse(1>3, "La expresion deveria ser falsa");
-  }
+      assertEquals(8, result, "EL resultado actual es diferente de 8");
+    }
 
-  @Test
-    public void testNullAndNotNull(){
-     String objTest= "holla";
+
+    public void testEquality() {
+      String expected = "Hello";
+      String actual = "Hello";
+
+      assertEquals(expected, actual, "Cadenas diferentes");
+    }
+
+
+    public void testTrueOrFalse() {
+      assertTrue(5 > 2, "La expresion deberia ser verdadera");
+      assertFalse(1 > 3, "La expresion deveria ser falsa");
+    }
+
+
+    public void testNullAndNotNull() {
+      String objTest = "holla";
       //assertNull("El objeto deberia ser nulo", objTest);
-      assertNotNull(objTest,"El objeto de prueba no debe ser nulo");
+      assertNotNull(objTest, "El objeto de prueba no debe ser nulo");
 
     }
 
-  /**Pasos para Escribir Pruebas Unitarias
-   * 1. Identificar un Método para Probar
-   * 2. Crear un clase de prueba para la clase o el metodo a probar
-   * 3. Escribir la Prueba: Usar aserciones para verificar el comportamiento del método
-   *    assertEquals
-   *    asserrTrue
-   *    asserNull
-   *    etc.
-   * 4. Ejecutar la prueba
-   **/
+    /**
+     * Pasos para Escribir Pruebas Unitarias
+     * 1. Identificar un Método para Probar
+     * 2. Crear un clase de prueba para la clase o el metodo a probar
+     * 3. Escribir la Prueba: Usar aserciones para verificar el comportamiento del método
+     * assertEquals
+     * asserrTrue
+     * asserNull
+     * etc.
+     * 4. Ejecutar la prueba
+     **/
 
-  @Test
-  public void testArraysEquality(){
-    int[] expectedArray = {1,2,3};
-    int[] actualityArray = {1,2,3};
-    Assert.assertEquals(expectedArray, actualityArray,"Los arreglos no son iguales");
-  }
 
-  @Test
-  public void testException(){
-    assertThrows(ArithmeticException.class, ()->{
-      int result = 1/0;
-    });
-  }
+    public void testArraysEquality() {
+      int[] expectedArray = {1, 2, 3};
+      int[] actualityArray = {1, 2, 3};
+      Assert.assertEquals(expectedArray, actualityArray, "Los arreglos no son iguales");
+    }
 
-  @Test
-  public void testObjectReference(){
 
-    String fisrtString = new String("Hello");
-    String secondstring = fisrtString;
+    public void testException() {
+      assertThrows(ArithmeticException.class, () -> {
+        int result = 1 / 0;
+      });
+    }
 
-    assertSame(fisrtString,secondstring);
+
+    public void testObjectReference() {
+
+      String fisrtString = new String("Hello");
+      String secondstring = fisrtString;
+
+      assertSame(fisrtString, secondstring);
+    }
   }
 
 }
