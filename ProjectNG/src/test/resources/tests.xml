@@ -5,6 +5,8 @@
             <run>
                 <include name="grupo1" />
                 <include name="grupo3" />
+                <include name="grupo4" />
+                <include name="EnvDev" />
             </run>
         </groups>
         <classes>

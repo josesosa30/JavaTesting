@@ -2,6 +2,7 @@ import Interviewer.Interviewer;
 import Interviewer.Calculator;
 import Interviewer.Menu;
 //import org.junit.*;
+import org.junit.Assume;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -22,6 +23,7 @@ public class test {
   private ByteArrayInputStream testIn;
   private ByteArrayOutputStream testOut;
 
+  public Calculator calculator;
 
   @BeforeGroups (groups = {"grupo1"})
   public void setUpOutput() {
@@ -38,6 +40,10 @@ public class test {
       return testOut.toString();
   }
 
+  @BeforeGroups (groups = {"grupo3","grupo4","EnvDev"})
+  public void setUp(){
+    calculator = new Calculator();
+  }
 
   @AfterSuite
   public void restoreSystemInputOutput() {
@@ -138,8 +144,8 @@ public class test {
 
 
     public void testSuma() {
-      Calculator calculador = new Calculator();
-      int result = calculador.add(3, 5);
+
+      int result = calculator.add(3, 5);
 
       assertEquals(8, result, "EL resultado actual es diferente de 8");
     }
@@ -201,5 +207,41 @@ public class test {
       assertSame(fisrtString, secondstring);
     }
   }
+
+
+  @Test (groups = "grupo4")
+  public class Grupo4 {
+    public void testSO() {
+      String sistemaOperativo = System.getProperty("os.name");
+      Assume.assumeTrue(sistemaOperativo.contains("Windows"));
+      int resultado = calculator.add(2, 3);
+      Assert.assertEquals(resultado, 5);
+    }
+
+    public void testSOOther() {
+      String sistemaOperativo = System.getProperty("os.name");
+      Assume.assumeFalse(sistemaOperativo.contains("Linux"));
+      int resultado = calculator.add(2, 3);
+      Assert.assertEquals(resultado, 5);
+    }
+  }
+
+  @Test(groups = "EnvDev", enabled = false)
+  public class Grupo5 {
+    public void testEnviromentDev() {
+      System.setProperty("ambientes", "desarrollo");
+
+      int resultado = calculator.add(2, 3);
+      Assert.assertEquals(resultado, 5);
+    }
+  }
+
+
+
+
+
+
+
+
 
 }
