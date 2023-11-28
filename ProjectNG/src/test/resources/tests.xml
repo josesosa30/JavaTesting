@@ -7,6 +7,9 @@
                 <include name="grupo3" />
                 <include name="grupo4" />
                 <include name="EnvDev" />
+                <include name="sumaParametrizada"/>
+                <include name="multipParametrizada"/>
+                <include name="testDisplay"/>
             </run>
         </groups>
         <classes>

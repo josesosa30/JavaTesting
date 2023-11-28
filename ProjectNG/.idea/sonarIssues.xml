@@ -3,6 +3,11 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$MAVEN_REPOSITORY$/org/testng/testng/7.3.0/testng-7.3.0.jar!/org/testng/annotations/Test.class">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/pom.xml">
           <value>
             <set />
@@ -34,6 +39,51 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/resources/tests.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../src/test/java/TestSelenium.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../src/test/resources/testng.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../TestSpringBoot_Mockito/demo/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../TestSpringBoot_Mockito/demo/src/main/java/com/example/demo/DemoApplication.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../TestSpringBoot_Mockito/demo/src/main/java/com/example/demo/SomeDataService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../TestSpringBoot_Mockito/demo/src/test/java/com/example/demo/DemoApplicationTests.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../TestSpringBoot_Mockito/demo/src/test/java/com/example/demo/SomeBusinessLogicMockTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../TestSpringBoot_Mockito/demo/src/test/java/com/example/demo/SomeBusinessStubTest.java">
           <value>
             <set />
           </value>

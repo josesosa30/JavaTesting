@@ -3,8 +3,10 @@ import Interviewer.Calculator;
 import Interviewer.Menu;
 //import org.junit.*;
 import org.junit.Assume;
+import org.junit.jupiter.api.DisplayName;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -206,6 +208,8 @@ public class test {
 
       assertSame(fisrtString, secondstring);
     }
+
+
   }
 
 
@@ -235,13 +239,51 @@ public class test {
       Assert.assertEquals(resultado, 5);
     }
   }
+  @Test(groups = "sumaParametrizada", dataProvider = "datosSuma")
+  public void testSumaParametrizada(int a, int b, int resultadoEsperado) {
+    int resultado = calculator.add(a, b);
+    Assert.assertEquals(resultado, resultadoEsperado,"El resultado no coincide con el resultado esperado");
+  }
+
+  @Test(groups = "multipParametrizada", dataProvider = "datosMultiplicacion")
+  public void testMultiParametrizada(int a, int b, int resultadoEsperado){
+    int resultado = calculator.multiply(a, b);
+    Assert.assertEquals(resultado, resultadoEsperado,"El resultado no coincide con el resultado esperado");
+  }
+
+  @DisplayName("Prueba de la funcion Suma")
+  @Test(groups = "testDisplay")
+  public void testSuma(){
+    int resultado = calculator.add(2,3);
+    Assert.assertEquals(resultado, 5,"El resultado no coincide con el resultado esperado");
+  }
 
 
 
 
 
 
+  //Métodos para proporcionar los datos de las pruebas aparametrizadas
 
+  @DataProvider(name ="datosSuma")
+    public Object[][] datosSuma(){
+      return new Object[][] {
+              {2,3,5},
+              {0,0,0},
+              {-1,1,0},
+              {100,8,108}
+      };
+    }
 
+  @DataProvider(name ="datosMultiplicacion")
+  public Object[][] datosMultiplicacion(){
+    return new Object[][] {
+            {2,3,6},
+            {0,5,0},
+            {50,30,1500},
+            {-20,-50,1000}
+    };
+  }
 
-}
+  }
+
